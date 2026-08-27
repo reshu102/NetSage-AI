@@ -1,0 +1,1 @@
+{"name":"netsage-client","private":true,"type":"module","scripts":{"dev":"vite","build":"vite build"},"dependencies":{"@vitejs/plugin-react":"^4.3.3","axios":"^1.7.7","lucide-react":"^0.468.0","netsage-ai":"file:..","react":"^18.3.1","react-dom":"^18.3.1","react-router-dom":"^6.28.0","recharts":"^2.13.3","vite":"^5.4.10"}}

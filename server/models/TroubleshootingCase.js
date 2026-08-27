@@ -1,0 +1,4 @@
+import mongoose from 'mongoose';
+const diagnosisSchema=new mongoose.Schema({rootCause:String,confidence:String,confidenceScore:Number,osiLayer:String,evidence:[String],nextCommands:[String],fixSteps:[String],alternativeCauses:[String]},{_id:false});
+const reviewSchema=new mongoose.Schema({status:{type:String,default:'Pending'},correctedRootCause:String,correctedOsiLayer:String,correctedFixSteps:[String],correctionReason:String,reviewerNotes:String,reviewedAt:Date},{_id:false});
+export default mongoose.model('TroubleshootingCase',new mongoose.Schema({title:String,symptom:{type:String,required:true},topologyNotes:String,showOutputs:String,concept:String,severity:String,diagnosis:diagnosisSchema,ruleChecks:[{label:String,status:String,detail:String}],review:{type:reviewSchema,default:()=>({})}},{timestamps:true}));
