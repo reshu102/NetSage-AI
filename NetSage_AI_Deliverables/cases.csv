@@ -1,0 +1,31 @@
+case_id,symptom,topology_and_show_evidence,expected_fault,osi_layer,concept,severity
+C001,PC in VLAN 10 gets IP but cannot ping default gateway,PC-A 192.168.10.21/24; gateway 192.168.10.1; Gi0/1 access VLAN 20; show vlan brief shows Gi0/1 in VLAN 20,Interface is assigned to wrong VLAN,Layer 2,VLAN,High
+C002,PC gets IP but cannot reach server in another VLAN; gateway ping works,PC 192.168.30.20/24; gateway 192.168.30.1 responds; show ip route lacks 192.168.40.0/24,Missing route to server VLAN,Layer 3,Routing,High
+C003,Two PCs intermittently lose connectivity,show arp contains 192.168.10.50 mapped to two different MAC addresses; both hosts configured with 192.168.10.50,Duplicate IP address,Layer 3,Duplicate IP,High
+C004,PC can reach gateway but not external network,PC 10.0.1.20/24; gateway 10.0.1.1; router show ip route has no default route,Missing default route,Layer 3,Routing,High
+C005,PC receives 169.254.x.x address,show ip dhcp binding empty; router DHCP pool exists but excluded range includes all addresses; interface is up,DHCP pool has no usable addresses,Layer 3,DHCP,High
+C006,PC receives IP but DNS name does not resolve,ping 8.8.8.8 succeeds; nslookup server unreachable; show running-config has wrong DNS server 10.10.10.99,Incorrect DNS server configuration,Layer 7,DNS,Medium
+C007,Trunk carries VLAN 10 but VLAN 30 hosts fail,"show interfaces trunk lists allowed VLANs 10,20; VLAN 30 is absent",VLAN 30 not allowed on trunk,Layer 2,VLAN,High
+C008,Router interface cannot pass traffic after configuration,show ip interface brief shows Gi0/0 administratively down,Interface is administratively shut down,Layer 1/2,Interface,High
+C009,Hosts in VLAN 20 cannot communicate with each other,show vlan brief shows VLAN 20 missing; switchports configured as access VLAN 20,VLAN 20 is not created,Layer 2,VLAN,High
+C010,Inter-VLAN routing fails for VLAN 30 only,show interfaces trunk shows trunk native VLAN 99; switch native VLAN is 1,Native VLAN mismatch on trunk,Layer 2,VLAN,High
+C011,ACL blocks legitimate web traffic,show access-lists 110 has deny tcp any host 10.0.0.10 eq 80 before permit statement,ACL rule order blocks HTTP traffic,Layer 4,ACL,High
+C012,Guest users can reach internal server,show access-lists GUEST-IN permits ip any 10.0.0.0 0.0.255.255; guest VLAN 50,Guest ACL permits internal network,Layer 3/4,ACL,Critical
+C013,NAT users cannot reach Internet,show ip nat translations empty; show run shows ip nat inside on WAN interface and ip nat outside on LAN interface,NAT inside/outside roles are reversed,Layer 3,NAT,High
+C014,Only some private hosts get Internet access through NAT,show access-lists NAT-ACL permits 192.168.10.0 but not 192.168.20.0; NAT overload references ACL,NAT ACL omits VLAN 20 subnet,Layer 3,NAT,Medium
+C015,DHCP clients get wrong gateway,show ip dhcp pool LAN default-router 192.168.20.254; SVI address is 192.168.20.1,Incorrect DHCP default gateway,Layer 3,DHCP,High
+C016,Static route exists but traffic still fails,show ip route 10.20.0.0/16 via 10.0.0.2; show ip interface brief shows next-hop interface down,Static route points to unreachable next hop,Layer 3,Routing,High
+C017,Wireless client connects to SSID but receives no address,"AP SSID maps to VLAN 60; switch trunk allowed VLANs 10,20,30 only",Wireless VLAN not permitted on trunk,Layer 2,Wireless,High
+C018,Wireless guest can associate but cannot access Internet,AP guest SSID uses VLAN 70; DHCP scope for VLAN 70 is missing,Missing DHCP scope for guest wireless VLAN,Layer 3,Wireless,Medium
+C019,Server reachable by IP but not by hostname,DNS A record points app.local to 10.10.10.25; server changed to 10.10.10.35,Stale DNS A record,Layer 7,DNS,Medium
+C020,Router cannot form OSPF adjacency,show ip ospf neighbor empty; show run interface Gi0/1 shows area 0; peer is configured for area 1,OSPF area mismatch,Layer 3,Routing,High
+C021,OSPF adjacency is up but remote LAN is missing,show ip ospf neighbor FULL; show ip ospf interface has passive-interface on LAN-facing interface,Incorrect passive-interface prevents advertisement,Layer 3,Routing,High
+C022,PC can ping gateway but HTTPS server is unreachable,show access-lists 120 denies tcp any host 10.10.20.10 eq 443,ACL explicitly denies HTTPS,Layer 4,ACL,High
+C023,DHCP works on local VLAN but not remote VLAN,remote SVI lacks ip helper-address; DHCP server is 10.1.1.10,Missing DHCP relay helper address,Layer 3,DHCP,High
+C024,Subnet hosts cannot communicate after mask change,Host A /24; Host B /25; both configured in 192.168.10.0 range,Subnet mask mismatch,Layer 3,Wrong Mask,High
+C025,Switch port shows err-disabled after connecting endpoint,show interfaces status shows err-disabled; show errdisable recovery shows port-security violation,Port-security violation caused err-disable,Layer 2,Interface,High
+C026,VLAN users lose connectivity after switch replacement,show vlan brief on new switch lacks VLAN 40; trunk allows VLAN 40,Required VLAN missing on replacement switch,Layer 2,VLAN,High
+C027,Internet works from router but not from LAN hosts,show ip nat statistics shows no translations; LAN interface lacks ip nat inside,NAT inside role missing on LAN interface,Layer 3,NAT,High
+C028,PC has correct IP and gateway but cannot reach server,show ip route contains destination route; show access-lists 101 has deny ip 192.168.10.0 0.0.0.255 host 192.168.20.10,ACL denies source subnet to server,Layer 3/4,ACL,High
+C029,DNS works for public names but internal hostname fails,show ip dns server shows enabled; internal zone lacks A record for fileserver.corp,Missing internal DNS record,Layer 7,DNS,Medium
+C030,Router interface has correct IP but link remains down,show ip interface brief shows Gi0/2 down/down; show interfaces Gi0/2 indicates no carrier,Physical/link-layer connectivity failure,Layer 1,Interface,Critical

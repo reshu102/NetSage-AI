@@ -1,0 +1,6 @@
+log_id,case_id,initial_ai_issue,review_status,reviewer_reason,correction_action,severity
+RAI-01,C011,AI suggested permitting HTTP because the server was reachable by ping.,Edited,Reviewer identified an explicit ACL deny for TCP/80 appearing before the permit.,Use ACL sequence/order evidence; inspect and correct the rule order.,High
+RAI-02,C003,AI blamed ARP instability without identifying duplicate addressing.,Edited,Two hosts were configured with the same IP and show arp mapped it to different MACs.,Correct duplicate IP first; verify ARP stability afterward.,High
+RAI-03,C012,AI treated guest-to-server reachability as a routing problem.,Rejected,"The guest ACL explicitly permitted the internal network, making this a security-policy failure.",Reject the diagnosis; restrict guest ACL before further routing changes.,Critical
+RAI-04,C006,AI said the Internet connection was down because DNS lookup failed.,Edited,"8.8.8.8 was reachable, proving basic IP connectivity; the evidence showed a wrong DNS server.",Separate Layer 3 reachability from Layer 7 DNS resolution.,Medium
+RAI-05,C016,AI recommended adding another static route even though the route existed.,Edited,"show ip route already contained the destination, but the next-hop interface was down.",Check next-hop/interface state before adding routes.,High

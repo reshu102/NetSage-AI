@@ -1,0 +1,19 @@
+NetSage AI Rule Checker — Sample Run
+Input fixture:
+- duplicate IP: 192.168.10.20 appears twice
+- DHCP network 192.168.20.0/24 uses default-router 192.168.20.254
+- Gi0/0 is administratively down
+- access VLAN 30 is used but VLAN 30 is not defined
+- required route 10.20.0.0/16 is absent
+
+Output:
+{
+  "duplicate_ips": ["192.168.10.20"],
+  "wrong_masks": false,
+  "gateway_mismatch": true,
+  "interface_down": true,
+  "missing_vlans": ["30"],
+  "missing_routes": ["10.20.0.0/16"]
+}
+
+Deterministic check result: PASS — each seeded fault is detected.
